@@ -10,6 +10,7 @@ Public Class MainForm
 #Region "Private variables"
     Private misc As New Misc(Me)
     Private ddl As New DrillDownLogic(Me)
+    Private bindingSource As New BindingSource()
 
 #End Region
 
@@ -69,7 +70,37 @@ Public Class MainForm
         End If
     End Sub
 
+    Private Sub ScopeButton_Click(sender As Object, e As EventArgs) Handles ScopeButton.Click
+        If ResultsDataGrid.SelectedRows.Count <= 0 Then
+            MsgBox("No rows selected. Cannot perform scope")
+            Exit Sub
+        End If
+        bindingSource.DataSource = dtResult
 
+        Dim filteredDataTable As DataTable = dtResult.Clone
+        Dim selectFilter As String = Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(0).Cells(Column_Level).Value
+
+        For i As Integer = 1 To ResultsDataGrid.SelectedRows.Count - 1
+            selectFilter &= "%' OR " & Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(i).Cells(Column_Level).Value
+            '    res = dtResult.Select(selectFilter)
+
+            '    For Each dtrow As DataRow In res
+            '        filteredDataTable.Rows.Add(dtResult.)
+            '    Next
+        Next
+        selectFilter &= "%'"
+        bindingSource.Filter = selectFilter
+
+        misc.SetDataSource(bindingSource)
+
+    End Sub
+
+    Private Sub RemoveScopeButton_Click(sender As Object, e As EventArgs) Handles RemoveScopeButton.Click
+        bindingSource.DataSource = dtResult
+        bindingSource.RemoveFilter()
+        misc.SetDataSource(bindingSource)
+
+    End Sub
 #End Region
 
 #Region "Background worker"
@@ -104,6 +135,8 @@ Public Class MainForm
         misc.HandleProgressBar(False)
         misc.HandleButtons(True)
     End Sub
+
+
 #End Region
 
 End Class

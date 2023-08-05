@@ -28,6 +28,7 @@
         _MainFormInstance.SelectFolderButton.Enabled = enabled
         _MainFormInstance.NewDrillButton.Enabled = enabled
         _MainFormInstance.ScopeButton.Enabled = enabled
+        _MainFormInstance.RemoveScopeButton.Enabled = enabled
     End Sub
 
     ''' <summary>
@@ -47,8 +48,8 @@
     ''' <summary>
     ''' Method for auto set and format the data grid view
     ''' </summary>
-    Public Sub SetDataSource()
-        _MainFormInstance.ResultsDataGrid.DataSource = _MainFormInstance.dtResult
+    Public Sub SetDataSource(Optional filteredDatatable As Object = Nothing)
+        _MainFormInstance.ResultsDataGrid.DataSource = IIf(filteredDatatable Is Nothing, _MainFormInstance.dtResult, filteredDatatable)
         _MainFormInstance.ResultsDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
         _MainFormInstance.DrillDownButton.Enabled = IIf(_MainFormInstance.ResultsDataGrid.Rows.Count > 0, True, False)
