@@ -25,11 +25,12 @@ Partial Class MainForm
         Me.ResultsDataGrid = New System.Windows.Forms.DataGridView()
         Me.VersionLabel = New System.Windows.Forms.Label()
         Me.SelectFolderButton = New System.Windows.Forms.Button()
-        Me.DrillDownButton = New System.Windows.Forms.Button()
+        Me.NewDrillButton = New System.Windows.Forms.Button()
         Me.FolderPathTextBox = New System.Windows.Forms.TextBox()
         Me.ProgBar = New System.Windows.Forms.ProgressBar()
         Me.DwarfDriller = New System.ComponentModel.BackgroundWorker()
         Me.ProgressLabel = New System.Windows.Forms.Label()
+        Me.DrillDownButton = New System.Windows.Forms.Button()
         CType(Me.ResultsDataGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -67,15 +68,15 @@ Partial Class MainForm
         Me.SelectFolderButton.Text = "Select starting folder"
         Me.SelectFolderButton.UseVisualStyleBackColor = True
         '
-        'DrillDownButton
+        'NewDrillButton
         '
-        Me.DrillDownButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DrillDownButton.Location = New System.Drawing.Point(708, 13)
-        Me.DrillDownButton.Name = "DrillDownButton"
-        Me.DrillDownButton.Size = New System.Drawing.Size(101, 23)
-        Me.DrillDownButton.TabIndex = 3
-        Me.DrillDownButton.Text = "Drill Down"
-        Me.DrillDownButton.UseVisualStyleBackColor = True
+        Me.NewDrillButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NewDrillButton.Location = New System.Drawing.Point(602, 13)
+        Me.NewDrillButton.Name = "NewDrillButton"
+        Me.NewDrillButton.Size = New System.Drawing.Size(101, 23)
+        Me.NewDrillButton.TabIndex = 3
+        Me.NewDrillButton.Text = "New Drill"
+        Me.NewDrillButton.UseVisualStyleBackColor = True
         '
         'FolderPathTextBox
         '
@@ -85,7 +86,7 @@ Partial Class MainForm
         Me.FolderPathTextBox.Name = "FolderPathTextBox"
         Me.FolderPathTextBox.Size = New System.Drawing.Size(376, 20)
         Me.FolderPathTextBox.TabIndex = 5
-        Me.FolderPathTextBox.Text = "C:\"
+        Me.FolderPathTextBox.Text = "F:\File Locali Windows"
         '
         'ProgBar
         '
@@ -110,15 +111,27 @@ Partial Class MainForm
         Me.ProgressLabel.Text = "ProgressLabel"
         Me.ProgressLabel.Visible = False
         '
+        'DrillDownButton
+        '
+        Me.DrillDownButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DrillDownButton.Enabled = False
+        Me.DrillDownButton.Location = New System.Drawing.Point(710, 13)
+        Me.DrillDownButton.Name = "DrillDownButton"
+        Me.DrillDownButton.Size = New System.Drawing.Size(99, 23)
+        Me.DrillDownButton.TabIndex = 8
+        Me.DrillDownButton.Text = "Drill Down"
+        Me.DrillDownButton.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(821, 511)
+        Me.Controls.Add(Me.DrillDownButton)
         Me.Controls.Add(Me.ProgressLabel)
         Me.Controls.Add(Me.ProgBar)
         Me.Controls.Add(Me.FolderPathTextBox)
-        Me.Controls.Add(Me.DrillDownButton)
+        Me.Controls.Add(Me.NewDrillButton)
         Me.Controls.Add(Me.SelectFolderButton)
         Me.Controls.Add(Me.VersionLabel)
         Me.Controls.Add(Me.ResultsDataGrid)
@@ -133,9 +146,10 @@ Partial Class MainForm
     Friend WithEvents ResultsDataGrid As DataGridView
     Friend WithEvents VersionLabel As Label
     Friend WithEvents SelectFolderButton As Button
-    Friend WithEvents DrillDownButton As Button
+    Friend WithEvents NewDrillButton As Button
     Friend WithEvents FolderPathTextBox As TextBox
     Friend WithEvents ProgBar As ProgressBar
     Friend WithEvents DwarfDriller As System.ComponentModel.BackgroundWorker
     Friend WithEvents ProgressLabel As Label
+    Friend WithEvents DrillDownButton As Button
 End Class
