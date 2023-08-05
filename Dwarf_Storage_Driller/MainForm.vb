@@ -62,6 +62,9 @@ Public Class MainForm
 
     Private Sub DrillDownButton_Click(sender As Object, e As EventArgs) Handles DrillDownButton.Click
         If ResultsDataGrid.SelectedRows.Count > 0 Then
+            misc.HandleProgressBar(True)
+            misc.HandleButtons(False)
+
             misc.StartBackgroundWorker(BackGroundOperation.ContinueDrillDown)
 
         Else
@@ -96,10 +99,11 @@ Public Class MainForm
     End Sub
 
     Private Sub RemoveScopeButton_Click(sender As Object, e As EventArgs) Handles RemoveScopeButton.Click
-        bindingSource.DataSource = dtResult
-        bindingSource.RemoveFilter()
-        misc.SetDataSource(bindingSource)
-
+        If MsgBox("Do you want to remove all filters?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            bindingSource.DataSource = dtResult
+            bindingSource.RemoveFilter()
+            misc.SetDataSource(bindingSource)
+        End If
     End Sub
 #End Region
 

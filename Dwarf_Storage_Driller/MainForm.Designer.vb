@@ -66,7 +66,7 @@ Partial Class MainForm
         Me.SelectFolderButton.Location = New System.Drawing.Point(429, 11)
         Me.SelectFolderButton.Name = "SelectFolderButton"
         Me.SelectFolderButton.Size = New System.Drawing.Size(98, 23)
-        Me.SelectFolderButton.TabIndex = 2
+        Me.SelectFolderButton.TabIndex = 6
         Me.SelectFolderButton.Text = "Select starting folder"
         Me.SelectFolderButton.UseVisualStyleBackColor = True
         '
@@ -76,7 +76,7 @@ Partial Class MainForm
         Me.NewDrillButton.Location = New System.Drawing.Point(533, 11)
         Me.NewDrillButton.Name = "NewDrillButton"
         Me.NewDrillButton.Size = New System.Drawing.Size(98, 23)
-        Me.NewDrillButton.TabIndex = 3
+        Me.NewDrillButton.TabIndex = 2
         Me.NewDrillButton.Text = "New Drill"
         Me.NewDrillButton.UseVisualStyleBackColor = True
         '
@@ -88,7 +88,7 @@ Partial Class MainForm
         Me.FolderPathTextBox.Location = New System.Drawing.Point(13, 13)
         Me.FolderPathTextBox.Name = "FolderPathTextBox"
         Me.FolderPathTextBox.Size = New System.Drawing.Size(410, 21)
-        Me.FolderPathTextBox.TabIndex = 5
+        Me.FolderPathTextBox.TabIndex = 1
         Me.FolderPathTextBox.Text = "D:\"
         '
         'ProgBar
@@ -123,7 +123,7 @@ Partial Class MainForm
         Me.DrillDownButton.Location = New System.Drawing.Point(637, 11)
         Me.DrillDownButton.Name = "DrillDownButton"
         Me.DrillDownButton.Size = New System.Drawing.Size(98, 23)
-        Me.DrillDownButton.TabIndex = 8
+        Me.DrillDownButton.TabIndex = 3
         Me.DrillDownButton.Text = "Drill Down"
         Me.DrillDownButton.UseVisualStyleBackColor = True
         '
@@ -134,7 +134,7 @@ Partial Class MainForm
         Me.ScopeButton.Location = New System.Drawing.Point(897, 13)
         Me.ScopeButton.Name = "ScopeButton"
         Me.ScopeButton.Size = New System.Drawing.Size(98, 23)
-        Me.ScopeButton.TabIndex = 9
+        Me.ScopeButton.TabIndex = 4
         Me.ScopeButton.Text = "Scope rows"
         Me.ScopeButton.UseVisualStyleBackColor = True
         '
@@ -145,7 +145,7 @@ Partial Class MainForm
         Me.RemoveScopeButton.Location = New System.Drawing.Point(897, 42)
         Me.RemoveScopeButton.Name = "RemoveScopeButton"
         Me.RemoveScopeButton.Size = New System.Drawing.Size(98, 23)
-        Me.RemoveScopeButton.TabIndex = 9
+        Me.RemoveScopeButton.TabIndex = 5
         Me.RemoveScopeButton.Text = "Remove scope"
         Me.RemoveScopeButton.UseVisualStyleBackColor = True
         '

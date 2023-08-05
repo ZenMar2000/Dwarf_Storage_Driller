@@ -59,23 +59,29 @@ Class DrillDownLogic
         Dim currentLevel As String
         Dim skippedDirs As String = "The following directories were skipped:" & vbNewLine & vbNewLine
         Dim showSkippedDirs As Boolean = False
+        Dim subdirectories As String()
 
         'Get the subdirectories in the current folder
-        Dim subdirectories As String() = Directory.GetDirectories(targetPath)
+        Try
+            subdirectories = Directory.GetDirectories(targetPath)
+            For Each subdirectory As String In subdirectories
+                Try
+                    currentLevel = parentLevel & "_" & localLevel
 
-        For Each subdirectory As String In subdirectories
-            Try
-                currentLevel = parentLevel & "_" & localLevel
+                    'Get info for current subdirectory
+                    GetFolderData(subdirectory, currentLevel)
 
-                'Get info for current subdirectory
-                GetFolderData(subdirectory, currentLevel)
+                    localLevel += 1
+                Catch ex2 As Exception
+                    skippedDirs &= subdirectory & " || " & ex2.Message & vbNewLine & vbNewLine
+                    showSkippedDirs = True
+                End Try
+            Next
 
-                localLevel += 1
-            Catch ex As Exception
-                skippedDirs &= subdirectory & " || " & ex.Message & vbNewLine & vbNewLine
-                showSkippedDirs = True
-            End Try
-        Next
+        Catch ex As Exception
+            skippedDirs &= targetPath & " || " & ex.Message & vbNewLine & vbNewLine
+            showSkippedDirs = True
+        End Try
 
         If showSkippedDirs Then
             MsgBox(skippedDirs)
