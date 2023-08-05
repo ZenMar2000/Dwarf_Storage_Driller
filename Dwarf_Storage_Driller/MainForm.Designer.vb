@@ -135,7 +135,7 @@ Partial Class MainForm
         Me.ScopeButton.Name = "ScopeButton"
         Me.ScopeButton.Size = New System.Drawing.Size(98, 23)
         Me.ScopeButton.TabIndex = 9
-        Me.ScopeButton.Text = "Scope selected"
+        Me.ScopeButton.Text = "Scope rows"
         Me.ScopeButton.UseVisualStyleBackColor = True
         '
         'RemoveScopeButton
