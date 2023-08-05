@@ -86,7 +86,7 @@ Partial Class MainForm
         Me.FolderPathTextBox.Name = "FolderPathTextBox"
         Me.FolderPathTextBox.Size = New System.Drawing.Size(376, 20)
         Me.FolderPathTextBox.TabIndex = 5
-        Me.FolderPathTextBox.Text = "F:\File Locali Windows"
+        Me.FolderPathTextBox.Text = "C:\"
         '
         'ProgBar
         '
