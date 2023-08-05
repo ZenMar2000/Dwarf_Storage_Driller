@@ -73,15 +73,20 @@ Public Class MainForm
 #End Region
 
 #Region "Background worker"
+    ''' <summary>
+    ''' Needed a BackGroundWorkerArguments object as argument. Called by method Misc.StartBackgroundWorker()
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub DwarfDriller_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles DwarfDriller.DoWork
-        Dim arguments As List(Of Object) = DirectCast(e.Argument, List(Of Object))
+        Dim arguments As BackGroundWorkerArguments = DirectCast(e.Argument, BackGroundWorkerArguments)
 
-        Select Case arguments(1)
+        Select Case arguments.Operation
             Case BackGroundOperation.BeginNewDrillDown
-                ddl.BeginNewDrillDown(arguments(0))
+                ddl.BeginNewDrillDown(arguments.Data)
 
             Case BackGroundOperation.ContinueDrillDown
-                ddl.ContinueDrillDown(arguments(0))
+                ddl.ContinueDrillDown(arguments.Data)
 
         End Select
 
