@@ -40,6 +40,7 @@ Partial Class MainForm
         '
         Me.ResultsDataGrid.AllowUserToAddRows = False
         Me.ResultsDataGrid.AllowUserToDeleteRows = False
+        Me.ResultsDataGrid.AllowUserToResizeRows = False
         Me.ResultsDataGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

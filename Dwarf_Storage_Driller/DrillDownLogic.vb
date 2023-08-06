@@ -20,6 +20,7 @@ Class DrillDownLogic
     ''' </summary>
     Public Sub BeginNewDrillDown(targetPath As String)
         Try
+            _MainFormInstance.ColorDictionary = New Dictionary(Of String, Color)
             ScanFolders(targetPath, "0")
 
         Catch ex As Exception
@@ -28,12 +29,18 @@ Class DrillDownLogic
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Further dig on the selected rows
+    ''' </summary>
+    ''' <param name="selctedRows">Collection of the selected Data Grid view rows</param>
     Public Sub ContinueDrillDown(selctedRows As DataGridViewSelectedRowCollection)
         Dim warnForAlreadyDrilledRows As Boolean = False
 
         For Each row As DataGridViewRow In _MainFormInstance.ResultsDataGrid.Rows
             If row.DefaultCellStyle.BackColor = Color.Yellow Then
                 row.DefaultCellStyle.BackColor = Color.LightGreen
+
+                _MainFormInstance.SaveDictionaryColor(row.Cells(Column_Level).Value, row.DefaultCellStyle.BackColor)
 
             End If
         Next
@@ -42,6 +49,9 @@ Class DrillDownLogic
             If row.DefaultCellStyle.BackColor <> Color.LightGreen Then
                 ScanFolders(row.Cells(Column_FullPath).Value, row.Cells(Column_Level).Value)
                 row.DefaultCellStyle.BackColor = Color.Yellow
+
+                _MainFormInstance.SaveDictionaryColor(row.Cells(Column_Level).Value, row.DefaultCellStyle.BackColor)
+
             Else
                 warnForAlreadyDrilledRows = True
 
@@ -138,5 +148,6 @@ Class DrillDownLogic
 
         End Try
     End Sub
+
 
 End Class

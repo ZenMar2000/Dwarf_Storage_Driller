@@ -4,7 +4,7 @@ Imports System.IO
 Public Class MainForm
 #Region "Public variables"
     Public dtResult As New DataTable
-
+    Public ColorDictionary As New Dictionary(Of String, Color)
 #End Region
 
 #Region "Private variables"
@@ -95,6 +95,7 @@ Public Class MainForm
         bindingSource.Filter = selectFilter
 
         misc.SetDataSource(bindingSource)
+        ApplyDictionaryColor()
 
     End Sub
 
@@ -103,6 +104,9 @@ Public Class MainForm
             bindingSource.DataSource = dtResult
             bindingSource.RemoveFilter()
             misc.SetDataSource(bindingSource)
+
+            ApplyDictionaryColor()
+
         End If
     End Sub
 #End Region
@@ -136,11 +140,39 @@ Public Class MainForm
     Private Sub DwarfDriller_WorkEnded() Handles DwarfDriller.RunWorkerCompleted
         misc.SetDataSource()
 
+        ApplyDictionaryColor()
+
         misc.HandleProgressBar(False)
         misc.HandleButtons(True)
+
     End Sub
 
 
 #End Region
+
+    Private Sub ResultsDataGrid_Sorted(sender As Object, e As EventArgs) Handles ResultsDataGrid.Sorted
+        ApplyDictionaryColor()
+
+    End Sub
+
+    Public Sub SaveDictionaryColor(key As String, value As Color)
+        If ColorDictionary.ContainsKey(key) = True Then
+            ColorDictionary(key) = value
+
+        Else
+            ColorDictionary.Add(key, value)
+
+        End If
+
+    End Sub
+
+    Public Sub ApplyDictionaryColor()
+        Dim val As Color
+        For Each row As DataGridViewRow In ResultsDataGrid.Rows
+            If ColorDictionary.TryGetValue(row.Cells(Column_Level).Value, val) = True Then
+                row.DefaultCellStyle.BackColor = val
+            End If
+        Next
+    End Sub
 
 End Class
