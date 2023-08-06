@@ -31,6 +31,8 @@ Partial Class MainForm
         Me.DwarfDriller = New System.ComponentModel.BackgroundWorker()
         Me.ProgressLabel = New System.Windows.Forms.Label()
         Me.DrillDownButton = New System.Windows.Forms.Button()
+        Me.ScopeButton = New System.Windows.Forms.Button()
+        Me.RemoveScopeButton = New System.Windows.Forms.Button()
         CType(Me.ResultsDataGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -38,14 +40,15 @@ Partial Class MainForm
         '
         Me.ResultsDataGrid.AllowUserToAddRows = False
         Me.ResultsDataGrid.AllowUserToDeleteRows = False
+        Me.ResultsDataGrid.AllowUserToResizeRows = False
         Me.ResultsDataGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ResultsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.ResultsDataGrid.Location = New System.Drawing.Point(13, 42)
+        Me.ResultsDataGrid.Location = New System.Drawing.Point(13, 71)
         Me.ResultsDataGrid.Name = "ResultsDataGrid"
         Me.ResultsDataGrid.ReadOnly = True
-        Me.ResultsDataGrid.Size = New System.Drawing.Size(796, 433)
+        Me.ResultsDataGrid.Size = New System.Drawing.Size(982, 404)
         Me.ResultsDataGrid.TabIndex = 0
         '
         'VersionLabel
@@ -61,20 +64,20 @@ Partial Class MainForm
         'SelectFolderButton
         '
         Me.SelectFolderButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SelectFolderButton.Location = New System.Drawing.Point(395, 13)
+        Me.SelectFolderButton.Location = New System.Drawing.Point(429, 11)
         Me.SelectFolderButton.Name = "SelectFolderButton"
-        Me.SelectFolderButton.Size = New System.Drawing.Size(122, 23)
-        Me.SelectFolderButton.TabIndex = 2
+        Me.SelectFolderButton.Size = New System.Drawing.Size(98, 23)
+        Me.SelectFolderButton.TabIndex = 6
         Me.SelectFolderButton.Text = "Select starting folder"
         Me.SelectFolderButton.UseVisualStyleBackColor = True
         '
         'NewDrillButton
         '
         Me.NewDrillButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NewDrillButton.Location = New System.Drawing.Point(602, 13)
+        Me.NewDrillButton.Location = New System.Drawing.Point(533, 11)
         Me.NewDrillButton.Name = "NewDrillButton"
-        Me.NewDrillButton.Size = New System.Drawing.Size(101, 23)
-        Me.NewDrillButton.TabIndex = 3
+        Me.NewDrillButton.Size = New System.Drawing.Size(98, 23)
+        Me.NewDrillButton.TabIndex = 2
         Me.NewDrillButton.Text = "New Drill"
         Me.NewDrillButton.UseVisualStyleBackColor = True
         '
@@ -82,16 +85,17 @@ Partial Class MainForm
         '
         Me.FolderPathTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FolderPathTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.FolderPathTextBox.Location = New System.Drawing.Point(13, 13)
         Me.FolderPathTextBox.Name = "FolderPathTextBox"
-        Me.FolderPathTextBox.Size = New System.Drawing.Size(376, 20)
-        Me.FolderPathTextBox.TabIndex = 5
-        Me.FolderPathTextBox.Text = "C:\"
+        Me.FolderPathTextBox.Size = New System.Drawing.Size(410, 21)
+        Me.FolderPathTextBox.TabIndex = 1
+        Me.FolderPathTextBox.Text = "D:\"
         '
         'ProgBar
         '
         Me.ProgBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgBar.Location = New System.Drawing.Point(517, 486)
+        Me.ProgBar.Location = New System.Drawing.Point(703, 486)
         Me.ProgBar.Name = "ProgBar"
         Me.ProgBar.Size = New System.Drawing.Size(292, 18)
         Me.ProgBar.TabIndex = 6
@@ -103,30 +107,56 @@ Partial Class MainForm
         '
         'ProgressLabel
         '
+        Me.ProgressLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressLabel.AutoSize = True
-        Me.ProgressLabel.Location = New System.Drawing.Point(519, 488)
+        Me.ProgressLabel.Location = New System.Drawing.Point(707, 488)
         Me.ProgressLabel.Name = "ProgressLabel"
         Me.ProgressLabel.Size = New System.Drawing.Size(74, 13)
         Me.ProgressLabel.TabIndex = 7
         Me.ProgressLabel.Text = "ProgressLabel"
+        Me.ProgressLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ProgressLabel.Visible = False
         '
         'DrillDownButton
         '
         Me.DrillDownButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DrillDownButton.Enabled = False
-        Me.DrillDownButton.Location = New System.Drawing.Point(710, 13)
+        Me.DrillDownButton.Location = New System.Drawing.Point(637, 11)
         Me.DrillDownButton.Name = "DrillDownButton"
-        Me.DrillDownButton.Size = New System.Drawing.Size(99, 23)
-        Me.DrillDownButton.TabIndex = 8
+        Me.DrillDownButton.Size = New System.Drawing.Size(98, 23)
+        Me.DrillDownButton.TabIndex = 3
         Me.DrillDownButton.Text = "Drill Down"
         Me.DrillDownButton.UseVisualStyleBackColor = True
+        '
+        'ScopeButton
+        '
+        Me.ScopeButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ScopeButton.Enabled = False
+        Me.ScopeButton.Location = New System.Drawing.Point(897, 13)
+        Me.ScopeButton.Name = "ScopeButton"
+        Me.ScopeButton.Size = New System.Drawing.Size(98, 23)
+        Me.ScopeButton.TabIndex = 4
+        Me.ScopeButton.Text = "Scope rows"
+        Me.ScopeButton.UseVisualStyleBackColor = True
+        '
+        'RemoveScopeButton
+        '
+        Me.RemoveScopeButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RemoveScopeButton.Enabled = False
+        Me.RemoveScopeButton.Location = New System.Drawing.Point(897, 42)
+        Me.RemoveScopeButton.Name = "RemoveScopeButton"
+        Me.RemoveScopeButton.Size = New System.Drawing.Size(98, 23)
+        Me.RemoveScopeButton.TabIndex = 5
+        Me.RemoveScopeButton.Text = "Remove scope"
+        Me.RemoveScopeButton.UseVisualStyleBackColor = True
         '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(821, 511)
+        Me.ClientSize = New System.Drawing.Size(1007, 511)
+        Me.Controls.Add(Me.RemoveScopeButton)
+        Me.Controls.Add(Me.ScopeButton)
         Me.Controls.Add(Me.DrillDownButton)
         Me.Controls.Add(Me.ProgressLabel)
         Me.Controls.Add(Me.ProgBar)
@@ -152,4 +182,6 @@ Partial Class MainForm
     Friend WithEvents DwarfDriller As System.ComponentModel.BackgroundWorker
     Friend WithEvents ProgressLabel As Label
     Friend WithEvents DrillDownButton As Button
+    Friend WithEvents ScopeButton As Button
+    Friend WithEvents RemoveScopeButton As Button
 End Class

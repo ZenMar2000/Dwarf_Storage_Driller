@@ -4,12 +4,13 @@ Imports System.IO
 Public Class MainForm
 #Region "Public variables"
     Public dtResult As New DataTable
-
+    Public ColorDictionary As New Dictionary(Of String, Color)
 #End Region
 
 #Region "Private variables"
     Private misc As New Misc(Me)
     Private ddl As New DrillDownLogic(Me)
+    Private bindingSource As New BindingSource()
 
 #End Region
 
@@ -61,6 +62,9 @@ Public Class MainForm
 
     Private Sub DrillDownButton_Click(sender As Object, e As EventArgs) Handles DrillDownButton.Click
         If ResultsDataGrid.SelectedRows.Count > 0 Then
+            misc.HandleProgressBar(True)
+            misc.HandleButtons(False)
+
             misc.StartBackgroundWorker(BackGroundOperation.ContinueDrillDown)
 
         Else
@@ -69,19 +73,59 @@ Public Class MainForm
         End If
     End Sub
 
+    Private Sub ScopeButton_Click(sender As Object, e As EventArgs) Handles ScopeButton.Click
+        If ResultsDataGrid.SelectedRows.Count <= 0 Then
+            MsgBox("No rows selected. Cannot perform scope")
+            Exit Sub
+        End If
+        bindingSource.DataSource = dtResult
 
+        Dim filteredDataTable As DataTable = dtResult.Clone
+        Dim selectFilter As String = Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(0).Cells(Column_Level).Value
+
+        For i As Integer = 1 To ResultsDataGrid.SelectedRows.Count - 1
+            selectFilter &= "%' OR " & Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(i).Cells(Column_Level).Value
+            '    res = dtResult.Select(selectFilter)
+
+            '    For Each dtrow As DataRow In res
+            '        filteredDataTable.Rows.Add(dtResult.)
+            '    Next
+        Next
+        selectFilter &= "%'"
+        bindingSource.Filter = selectFilter
+
+        misc.SetDataSource(bindingSource)
+        ApplyDictionaryColor()
+
+    End Sub
+
+    Private Sub RemoveScopeButton_Click(sender As Object, e As EventArgs) Handles RemoveScopeButton.Click
+        If MsgBox("Do you want to remove all filters?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            bindingSource.DataSource = dtResult
+            bindingSource.RemoveFilter()
+            misc.SetDataSource(bindingSource)
+
+            ApplyDictionaryColor()
+
+        End If
+    End Sub
 #End Region
 
 #Region "Background worker"
+    ''' <summary>
+    ''' Needed a BackGroundWorkerArguments object as argument. Called by method Misc.StartBackgroundWorker()
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub DwarfDriller_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles DwarfDriller.DoWork
-        Dim arguments As List(Of Object) = DirectCast(e.Argument, List(Of Object))
+        Dim arguments As BackGroundWorkerArguments = DirectCast(e.Argument, BackGroundWorkerArguments)
 
-        Select Case arguments(1)
+        Select Case arguments.Operation
             Case BackGroundOperation.BeginNewDrillDown
-                ddl.BeginNewDrillDown(arguments(0))
+                ddl.BeginNewDrillDown(arguments.Data)
 
             Case BackGroundOperation.ContinueDrillDown
-                ddl.ContinueDrillDown(arguments(0))
+                ddl.ContinueDrillDown(arguments.Data)
 
         End Select
 
@@ -96,9 +140,39 @@ Public Class MainForm
     Private Sub DwarfDriller_WorkEnded() Handles DwarfDriller.RunWorkerCompleted
         misc.SetDataSource()
 
+        ApplyDictionaryColor()
+
         misc.HandleProgressBar(False)
         misc.HandleButtons(True)
+
     End Sub
+
+
 #End Region
+
+    Private Sub ResultsDataGrid_Sorted(sender As Object, e As EventArgs) Handles ResultsDataGrid.Sorted
+        ApplyDictionaryColor()
+
+    End Sub
+
+    Public Sub SaveDictionaryColor(key As String, value As Color)
+        If ColorDictionary.ContainsKey(key) = True Then
+            ColorDictionary(key) = value
+
+        Else
+            ColorDictionary.Add(key, value)
+
+        End If
+
+    End Sub
+
+    Public Sub ApplyDictionaryColor()
+        Dim val As Color
+        For Each row As DataGridViewRow In ResultsDataGrid.Rows
+            If ColorDictionary.TryGetValue(row.Cells(Column_Level).Value, val) = True Then
+                row.DefaultCellStyle.BackColor = val
+            End If
+        Next
+    End Sub
 
 End Class

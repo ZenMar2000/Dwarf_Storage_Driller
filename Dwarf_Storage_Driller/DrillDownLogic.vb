@@ -20,6 +20,7 @@ Class DrillDownLogic
     ''' </summary>
     Public Sub BeginNewDrillDown(targetPath As String)
         Try
+            _MainFormInstance.ColorDictionary = New Dictionary(Of String, Color)
             ScanFolders(targetPath, "0")
 
         Catch ex As Exception
@@ -28,12 +29,18 @@ Class DrillDownLogic
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Further dig on the selected rows
+    ''' </summary>
+    ''' <param name="selctedRows">Collection of the selected Data Grid view rows</param>
     Public Sub ContinueDrillDown(selctedRows As DataGridViewSelectedRowCollection)
         Dim warnForAlreadyDrilledRows As Boolean = False
 
         For Each row As DataGridViewRow In _MainFormInstance.ResultsDataGrid.Rows
             If row.DefaultCellStyle.BackColor = Color.Yellow Then
                 row.DefaultCellStyle.BackColor = Color.LightGreen
+
+                _MainFormInstance.SaveDictionaryColor(row.Cells(Column_Level).Value, row.DefaultCellStyle.BackColor)
 
             End If
         Next
@@ -42,6 +49,9 @@ Class DrillDownLogic
             If row.DefaultCellStyle.BackColor <> Color.LightGreen Then
                 ScanFolders(row.Cells(Column_FullPath).Value, row.Cells(Column_Level).Value)
                 row.DefaultCellStyle.BackColor = Color.Yellow
+
+                _MainFormInstance.SaveDictionaryColor(row.Cells(Column_Level).Value, row.DefaultCellStyle.BackColor)
+
             Else
                 warnForAlreadyDrilledRows = True
 
@@ -59,23 +69,29 @@ Class DrillDownLogic
         Dim currentLevel As String
         Dim skippedDirs As String = "The following directories were skipped:" & vbNewLine & vbNewLine
         Dim showSkippedDirs As Boolean = False
+        Dim subdirectories As String()
 
         'Get the subdirectories in the current folder
-        Dim subdirectories As String() = Directory.GetDirectories(targetPath)
+        Try
+            subdirectories = Directory.GetDirectories(targetPath)
+            For Each subdirectory As String In subdirectories
+                Try
+                    currentLevel = parentLevel & "_" & localLevel
 
-        For Each subdirectory As String In subdirectories
-            Try
-                currentLevel = parentLevel & "_" & localLevel
+                    'Get info for current subdirectory
+                    GetFolderData(subdirectory, currentLevel)
 
-                'Get info for current subdirectory
-                GetFolderData(subdirectory, currentLevel)
+                    localLevel += 1
+                Catch ex2 As Exception
+                    skippedDirs &= subdirectory & " || " & ex2.Message & vbNewLine & vbNewLine
+                    showSkippedDirs = True
+                End Try
+            Next
 
-                localLevel += 1
-            Catch ex As Exception
-                skippedDirs &= subdirectory & " || " & ex.Message & vbNewLine & vbNewLine
-                showSkippedDirs = True
-            End Try
-        Next
+        Catch ex As Exception
+            skippedDirs &= targetPath & " || " & ex.Message & vbNewLine & vbNewLine
+            showSkippedDirs = True
+        End Try
 
         If showSkippedDirs Then
             MsgBox(skippedDirs)
@@ -132,5 +148,6 @@ Class DrillDownLogic
 
         End Try
     End Sub
+
 
 End Class
