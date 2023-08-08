@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.ResultsDataGrid = New System.Windows.Forms.DataGridView()
         Me.VersionLabel = New System.Windows.Forms.Label()
         Me.SelectFolderButton = New System.Windows.Forms.Button()
@@ -33,6 +34,8 @@ Partial Class MainForm
         Me.DrillDownButton = New System.Windows.Forms.Button()
         Me.ScopeButton = New System.Windows.Forms.Button()
         Me.RemoveScopeButton = New System.Windows.Forms.Button()
+        Me.HideButton = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.ResultsDataGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,6 +72,7 @@ Partial Class MainForm
         Me.SelectFolderButton.Size = New System.Drawing.Size(98, 23)
         Me.SelectFolderButton.TabIndex = 6
         Me.SelectFolderButton.Text = "Select starting folder"
+        Me.ToolTip1.SetToolTip(Me.SelectFolderButton, "Shortcut 'M'")
         Me.SelectFolderButton.UseVisualStyleBackColor = True
         '
         'NewDrillButton
@@ -79,6 +83,7 @@ Partial Class MainForm
         Me.NewDrillButton.Size = New System.Drawing.Size(98, 23)
         Me.NewDrillButton.TabIndex = 2
         Me.NewDrillButton.Text = "New Drill"
+        Me.ToolTip1.SetToolTip(Me.NewDrillButton, "Shortcut 'N'")
         Me.NewDrillButton.UseVisualStyleBackColor = True
         '
         'FolderPathTextBox
@@ -126,29 +131,44 @@ Partial Class MainForm
         Me.DrillDownButton.Size = New System.Drawing.Size(98, 23)
         Me.DrillDownButton.TabIndex = 3
         Me.DrillDownButton.Text = "Drill Down"
+        Me.ToolTip1.SetToolTip(Me.DrillDownButton, "Shortcut 'D'")
         Me.DrillDownButton.UseVisualStyleBackColor = True
         '
         'ScopeButton
         '
         Me.ScopeButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ScopeButton.Enabled = False
-        Me.ScopeButton.Location = New System.Drawing.Point(897, 13)
+        Me.ScopeButton.Location = New System.Drawing.Point(793, 13)
         Me.ScopeButton.Name = "ScopeButton"
         Me.ScopeButton.Size = New System.Drawing.Size(98, 23)
         Me.ScopeButton.TabIndex = 4
         Me.ScopeButton.Text = "Scope rows"
+        Me.ToolTip1.SetToolTip(Me.ScopeButton, "Shortcut 'S'")
         Me.ScopeButton.UseVisualStyleBackColor = True
         '
         'RemoveScopeButton
         '
         Me.RemoveScopeButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RemoveScopeButton.Enabled = False
-        Me.RemoveScopeButton.Location = New System.Drawing.Point(897, 42)
+        Me.RemoveScopeButton.Location = New System.Drawing.Point(793, 42)
         Me.RemoveScopeButton.Name = "RemoveScopeButton"
-        Me.RemoveScopeButton.Size = New System.Drawing.Size(98, 23)
+        Me.RemoveScopeButton.Size = New System.Drawing.Size(202, 23)
         Me.RemoveScopeButton.TabIndex = 5
         Me.RemoveScopeButton.Text = "Remove scope"
+        Me.ToolTip1.SetToolTip(Me.RemoveScopeButton, "Shortcut 'R'")
         Me.RemoveScopeButton.UseVisualStyleBackColor = True
+        '
+        'HideButton
+        '
+        Me.HideButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HideButton.Enabled = False
+        Me.HideButton.Location = New System.Drawing.Point(897, 13)
+        Me.HideButton.Name = "HideButton"
+        Me.HideButton.Size = New System.Drawing.Size(98, 23)
+        Me.HideButton.TabIndex = 4
+        Me.HideButton.Text = "Hide rows"
+        Me.ToolTip1.SetToolTip(Me.HideButton, "Shortcut 'F'")
+        Me.HideButton.UseVisualStyleBackColor = True
         '
         'MainForm
         '
@@ -156,6 +176,7 @@ Partial Class MainForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1007, 511)
         Me.Controls.Add(Me.RemoveScopeButton)
+        Me.Controls.Add(Me.HideButton)
         Me.Controls.Add(Me.ScopeButton)
         Me.Controls.Add(Me.DrillDownButton)
         Me.Controls.Add(Me.ProgressLabel)
@@ -165,6 +186,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.SelectFolderButton)
         Me.Controls.Add(Me.VersionLabel)
         Me.Controls.Add(Me.ResultsDataGrid)
+        Me.KeyPreview = True
         Me.Name = "MainForm"
         Me.Text = "Dwarf Storage Driller"
         CType(Me.ResultsDataGrid, System.ComponentModel.ISupportInitialize).EndInit()
@@ -184,4 +206,6 @@ Partial Class MainForm
     Friend WithEvents DrillDownButton As Button
     Friend WithEvents ScopeButton As Button
     Friend WithEvents RemoveScopeButton As Button
+    Friend WithEvents HideButton As Button
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

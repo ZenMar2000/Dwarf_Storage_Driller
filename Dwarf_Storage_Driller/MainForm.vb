@@ -5,12 +5,13 @@ Public Class MainForm
 #Region "Public variables"
     Public dtResult As New DataTable
     Public ColorDictionary As New Dictionary(Of String, Color)
+    Public bindingSource As New BindingSource()
+
 #End Region
 
 #Region "Private variables"
     Private misc As New Misc(Me)
     Private ddl As New DrillDownLogic(Me)
-    Private bindingSource As New BindingSource()
 
 #End Region
 
@@ -28,6 +29,35 @@ Public Class MainForm
 
     End Sub
 
+    Private Sub MainForm_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
+        Select Case e.KeyCode
+            Case Keys.S
+                ScopeButton.PerformClick()
+
+            Case Keys.D
+                DrillDownButton.PerformClick()
+
+            Case Keys.R
+                RemoveScopeButton.PerformClick()
+
+            Case Keys.F
+                HideButton.PerformClick()
+
+            Case Keys.A
+                MsgBox("Not implemented. Increase drill levels per operation")
+
+            Case Keys.Q
+                MsgBox("Not implemented. Reduce drill levels per operation")
+
+            Case Keys.N
+                NewDrillButton.PerformClick()
+
+            Case Keys.M
+                SelectFolderButton.PerformClick()
+
+        End Select
+    End Sub
+
 #End Region
 
 #Region "Button Handlers"
@@ -42,7 +72,6 @@ Public Class MainForm
         End If
 
         misc.ClearAndCreateDataSource()
-
     End Sub
 
     Private Sub NewDrillButton_Click(sender As Object, e As EventArgs) Handles NewDrillButton.Click
@@ -73,26 +102,40 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub ScopeButton_Click(sender As Object, e As EventArgs) Handles ScopeButton.Click
+    Private Sub ScopeButton_Click(sender As Object, e As EventArgs) Handles ScopeButton.Click, HideButton.Click
+
+        Dim type As String = CType(sender, Button).Name
+
         If ResultsDataGrid.SelectedRows.Count <= 0 Then
             MsgBox("No rows selected. Cannot perform scope")
             Exit Sub
         End If
-        bindingSource.DataSource = dtResult
+        If bindingSource.DataSource Is Nothing Then
+            bindingSource.DataSource = dtResult
+        End If
 
         Dim filteredDataTable As DataTable = dtResult.Clone
-        Dim selectFilter As String = Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(0).Cells(Column_Level).Value
+
+        Dim partialFilter As String = IIf(type = "ScopeButton", Column_Level, Column_Level & " NOT")
+        Dim selectFilter As String = partialFilter & " LIKE '" & ResultsDataGrid.SelectedRows(0).Cells(Column_Level).Value
 
         For i As Integer = 1 To ResultsDataGrid.SelectedRows.Count - 1
-            selectFilter &= "%' OR " & Column_Level & " LIKE '" & ResultsDataGrid.SelectedRows(i).Cells(Column_Level).Value
+            selectFilter &= "%' " & IIf(type = "ScopeButton", "OR ", "AND ") & partialFilter & " LIKE '" & ResultsDataGrid.SelectedRows(i).Cells(Column_Level).Value
             '    res = dtResult.Select(selectFilter)
 
             '    For Each dtrow As DataRow In res
             '        filteredDataTable.Rows.Add(dtResult.)
             '    Next
         Next
-        selectFilter &= "%'"
-        bindingSource.Filter = selectFilter
+        selectFilter &= "%' "
+
+        If type = "HideButton" Then
+            bindingSource.Filter = IIf(bindingSource.Filter Is Nothing, selectFilter, "(" & bindingSource.Filter & ") AND " & selectFilter)
+
+        Else
+            bindingSource.Filter &= IIf(bindingSource.Filter Is Nothing, selectFilter, " AND " & selectFilter)
+
+        End If
 
         misc.SetDataSource(bindingSource)
         ApplyDictionaryColor()
@@ -103,6 +146,7 @@ Public Class MainForm
         If MsgBox("Do you want to remove all filters?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
             bindingSource.DataSource = dtResult
             bindingSource.RemoveFilter()
+
             misc.SetDataSource(bindingSource)
 
             ApplyDictionaryColor()

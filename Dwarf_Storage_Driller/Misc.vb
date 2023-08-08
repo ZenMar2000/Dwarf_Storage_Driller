@@ -29,6 +29,7 @@
         _MainFormInstance.NewDrillButton.Enabled = enabled
         _MainFormInstance.ScopeButton.Enabled = enabled
         _MainFormInstance.RemoveScopeButton.Enabled = enabled
+        _MainFormInstance.HideButton.Enabled = enabled
     End Sub
 
     ''' <summary>
@@ -40,6 +41,8 @@
         _MainFormInstance.dtResult.Columns.Add(Column_Folder, GetType(String))
         _MainFormInstance.dtResult.Columns.Add(Column_Dimension, GetType(Double))
         _MainFormInstance.dtResult.Columns.Add(Column_FullPath, GetType(String))
+
+        _MainFormInstance.bindingSource.RemoveFilter()
 
         SetDataSource()
 
